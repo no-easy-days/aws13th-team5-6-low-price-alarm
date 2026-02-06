@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crypto Pulseboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/app.css" />
+  </head>
+  <body>
+    <div class="bg-orbit"></div>
+    <header class="hero">
+      <div>
+        <p class="kicker">Team5 Price Alarm</p>
+        <h1>Crypto Pulseboard</h1>
+        <p class="subtitle">Real-time snapshots, historical trails, and alerting ? all wired to your FastAPI backend.</p>
+        <div class="hero-actions">
+          <button class="primary" id="refreshAll">Refresh Now</button>
+          <span class="status" id="status">Idle</span>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-row">
+          <span>Collector</span>
+          <span class="pill" id="collectorState">Running</span>
+        </div>
+        <div class="hero-card-row">
+          <span>Last Update</span>
+          <span id="lastUpdate">-</span>
+        </div>
+        <div class="hero-card-row">
+          <span>Tracked Coins</span>
+          <span id="coinCount">0</span>
+        </div>
+        <div class="hero-card-row">
+          <span>Active Alerts</span>
+          <span id="alertCount">0</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Market Watch</h2>
+          <div class="controls">
+            <label>
+              Coin
+              <select id="coinSelect"></select>
+            </label>
+            <label>
+              From
+              <input type="date" id="fromDate" />
+            </label>
+            <label>
+              To
+              <input type="date" id="toDate" />
+            </label>
+            <button id="loadHistory">Load History</button>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="priceChart" height="240"></canvas>
+        </div>
+        <div class="chart-meta" id="chartMeta">No data yet.</div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Daily Statistics</h2>
+          <button class="ghost" id="loadStats">Refresh Stats</button>
+        </div>
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card">
+            <span>Max</span>
+            <strong id="statMax">-</strong>
+          </div>
+          <div class="stat-card">
+            <span>Min</span>
+            <strong id="statMin">-</strong>
+          </div>
+          <div class="stat-card">
+            <span>Avg</span>
+            <strong id="statAvg">-</strong>
+          </div>
+          <div class="stat-card">
+            <span>Date</span>
+            <strong id="statDate">-</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Alerts</h2>
+          <div class="controls">
+            <button class="ghost" id="enableNotifications" type="button">Enable Notifications</button>
+            <button class="ghost" id="refreshAlerts" type="button">Reload</button>
+          </div>
+        </div>
+        <form class="alert-form" id="alertForm">
+          <label>
+            Coin
+            <select id="alertCoin"></select>
+          </label>
+          <label>
+            Condition
+            <select id="alertCondition">
+              <option value="GT">Greater Than</option>
+              <option value="LT">Less Than</option>
+            </select>
+          </label>
+          <label>
+            Target Price
+            <input type="number" id="alertPrice" placeholder="100000000" required />
+          </label>
+          <button class="primary" type="submit">Create Alert</button>
+        </form>
+        <div class="controls">
+          <button class="ghost" id="demoAlert" type="button">Demo Alert (Auto Trigger)</button>
+        </div>
+        <div class="alert-list" id="alertList"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Built with FastAPI ? SQLAlchemy ? Upbit API</span>
+      <span class="mono">Last render <span id="renderTime">-</span></span>
+    </footer>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
